@@ -1,0 +1,79 @@
+https://www.codecademy.com/learn/learn-sql/modules/learn-sql-manipulation/cheatsheet
+
+Clauses:
+
+Select * from database 
+
+Create table table_name
+
+Insert into table_name (id, name, age)
+Values(2, 'Herry', 26);
+
+Select  name from database // to select from one table name 
+Select * from database  // to select all the table 
+
+ALTER TABLE table_name
+ADD column_name datatype; // to add, delete, or modify columns in an existing table
+
+
+Constraint :
+we can add rules to a column known as constraints. These rules control the data that can be stored in a column. 
+
+CREATE TABLE awards (
+   id INTEGER PRIMARY KEY,
+   recipient TEXT NOT NULL,
+   award_name TEXT DEFAULT 'Grammy'
+);
+
+
+			i. CREATE TABLE creates a new table.
+			ii. INSERT INTO adds a new row to a table.
+			iii. SELECT queries data from a table.
+			iv. ALTER TABLE changes an existing table.
+			v. UPDATE edits a row in a table.
+			vi. DELETE FROM deletes rows from a table.
+
+
+
+SELECT name AS 'Titles' // AS is used to rename the column name 
+FROM movies;
+
+
+DISTINCT is used to return unique values in the output. It filters out all duplicate values in the specified column(s).
+
+SELECT DISTINCT tools 
+FROM inventory;
+
+
+	• LIKE can be a useful operator when you want to compare similar values.
+	• The movies table contains two films with similar titles, ‘Se7en’ and ‘Seven’.
+
+	• we select all movies that start with ‘Se’ and end with ‘en’ and have exactly one character in the middle?
+
+		SELECT * 
+		FROM movies
+		WHERE name LIKE 'Se_en';
+
+
+
+% is a wildcard character that matches zero or more missing characters in the pattern. For example:
+
+	• A% matches all movies with names that begin with letter ‘A’
+	• %a matches all movies that end with ‘a’
+	•  We can also use % both before and after a pattern:
+	
+		SELECT * 
+		FROM movies 
+		WHERE name LIKE '%man%';
+		
+		
+		SELECT *
+		FROM movies
+		WHERE year BETWEEN 1990 AND 1999;          // 1990's movies details
+
+
+• AND operator displays a row if all the conditions are true.
+• OR operator displays a row if any condition is true.
+
+
+
