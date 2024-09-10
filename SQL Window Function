@@ -1,0 +1,129 @@
+Window functions in SQL are powerful tools that allow you to perform calculations across a set of rows related to the current row without collapsing the result set into a single output row, as traditional aggregate functions do. This makes them particularly useful for analytical queries.
+
+## What is a Window Function?
+
+A window function performs a calculation across a specified range of rows, known as a "window," which can be defined using the `OVER()` clause. Unlike aggregate functions, which return a single value for a group of rows, window functions return a value for each row in the result set.
+
+### Key Components
+
+1. **Window Frame**: Defines the subset of rows for the calculation.
+2. **PARTITION BY**: Divides the result set into partitions to which the window function is applied.
+3. **ORDER BY**: Specifies the order of rows within each partition.
+
+## Types of Window Functions
+
+1. **Aggregate Functions**: Such as `SUM()`, `AVG()`, `COUNT()`, etc.
+2. **Ranking Functions**: Such as `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, etc.
+3. **Value Functions**: Such as `LAG()`, `LEAD()`, `FIRST_VALUE()`, etc.
+
+## Example of Using Window Functions
+
+### Sample Data
+
+Consider a table named `employee` with the following structure:
+
+| Name    | Age | Department | Salary |
+|---------|-----|------------|--------|
+| Ramesh  | 20  | Finance    | 50000  |
+| Deep    | 25  | Sales      | 30000  |
+| Suresh  | 22  | Finance    | 50000  |
+| Ram     | 28  | Finance    | 20000  |
+| Pradeep | 22  | Sales      | 20000  |
+
+### Example Query
+
+1. **Calculating Average Salary by Department**:
+
+```sql
+SELECT 
+    Name, 
+    Age, 
+    Department, 
+    Salary, 
+    AVG(Salary) OVER (PARTITION BY Department) AS Avg_Salary
+FROM 
+    employee;
+```
+
+**Explanation**:
+- The `AVG(Salary)` function calculates the average salary for each department.
+- The `PARTITION BY Department` clause creates a separate window for each department.
+
+**Result**:
+
+| Name    | Age | Department | Salary | Avg_Salary |
+|---------|-----|------------|--------|------------|
+| Ramesh  | 20  | Finance    | 50000  | 40000      |
+| Suresh  | 22  | Finance    | 50000  | 40000      |
+| Ram     | 28  | Finance    | 20000  | 40000      |
+| Deep    | 25  | Sales      | 30000  | 25000      |
+| Pradeep | 22  | Sales      | 20000  | 25000      |
+
+### 2. **Using Ranking Functions**:
+
+To rank employees based on their salary within each department, you can use the `RANK()` function:
+
+```sql
+SELECT 
+    Name, 
+    Age, 
+    Department, 
+    Salary, 
+    RANK() OVER (PARTITION BY Department ORDER BY Salary DESC) AS Salary_Rank
+FROM 
+    employee;
+```
+
+**Explanation**:
+- The `RANK()` function assigns a rank to each employee based on their salary within their department, with the highest salary receiving rank 1.
+- The `ORDER BY Salary DESC` clause orders the employees by salary in descending order.
+
+**Result**:
+
+| Name    | Age | Department | Salary | Salary_Rank |
+|---------|-----|------------|--------|-------------|
+| Ramesh  | 20  | Finance    | 50000  | 1           |
+| Suresh  | 22  | Finance    | 50000  | 1           |
+| Ram     | 28  | Finance    | 20000  | 3           |
+| Deep    | 25  | Sales      | 30000  | 1           |
+| Pradeep | 22  | Sales      | 20000  | 2           |
+
+### 3. **Using LAG() and LEAD() Functions**:
+
+To compare each employee's salary with the previous employee's salary in the same department:
+
+```sql
+SELECT 
+    Name, 
+    Salary, 
+    LAG(Salary) OVER (PARTITION BY Department ORDER BY Salary) AS Prev_Salary
+FROM 
+    employee;
+```
+
+**Explanation**:
+- The `LAG(Salary)` function retrieves the salary of the previous employee in the same department based on the ordering of salaries.
+
+**Result**:
+
+| Name    | Salary | Prev_Salary |
+|---------|--------|-------------|
+| Ramesh  | 50000  | NULL        |
+| Suresh  | 50000  | 50000       |
+| Ram     | 20000  | 50000       |
+| Deep    | 30000  | NULL        |
+| Pradeep | 20000  | 30000       |
+
+## Conclusion
+
+Window functions in SQL are powerful tools for performing complex calculations and analyses without losing the individual row identities. They enable advanced analytics, such as running totals, ranking, and comparisons across rows, making them essential for data analysis tasks. Understanding how to use window functions can significantly enhance your ability to work with data in SQL.
+
+Citations:
+[1] https://www.freecodecamp.org/news/window-functions-in-sql/
+[2] https://mode.com/sql-tutorial/sql-window-functions/
+[3] https://www.geeksforgeeks.org/window-functions-in-sql/
+[4] https://www.simplilearn.com/tutorials/hadoop-tutorial/data-file-partitioning
+[5] https://www.atlassian.com/data/databases/how-does-indexing-work
+[6] https://www.cloudduggu.com/hive/partitioning/
+[7] https://www.simplilearn.com/tutorials/sql-tutorial/index-in-sql
+[8] https://www.youtube.com/watch?v=YuRO9-rOgv4
