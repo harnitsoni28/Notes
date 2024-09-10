@@ -1,8 +1,10 @@
-Window functions in SQL are powerful tools that allow you to perform calculations across a set of rows related to the current row without collapsing the result set into a single output row, as traditional aggregate functions do. This makes them particularly useful for analytical queries.
+Window functions in SQL are powerful tools that allow you to perform calculations across a set of rows related to the current row without collapsing the
+result set into a single output row, as traditional aggregate functions do. This makes them particularly useful for analytical queries.
 
 ## What is a Window Function?
 
-A window function performs a calculation across a specified range of rows, known as a "window," which can be defined using the `OVER()` clause. Unlike aggregate functions, which return a single value for a group of rows, window functions return a value for each row in the result set.
+A window function performs a calculation across a specified range of rows, known as a "window," which can be defined using the `OVER()` clause. 
+Unlike aggregate functions, which return a single value for a group of rows, window functions return a value for each row in the result set.
 
 ### Key Components
 
